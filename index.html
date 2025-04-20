@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chanoroids Automobiles</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body style="font-family: calibri;">
+  
+<section class="logins">
+  <!-- Sign Up -->
+  <div id="signupPage" class="signup">
+      <h2>Sign Up</h2>
+     <input id="signupEmail" type="email" placeholder="Email" />
+     <input id="signupPassword" type="password" placeholder="Password" />
+     <button onclick="handleSignup()">Sign Up</button>
+     <p>Already have an account? <a href="#" onclick="showLogin()" class="sr">Login</a></p>
+  </div>
+
+  <!-- Login -->
+  <div id="loginPage" class="login hidden">
+    <h2>Login</h2>
+    <input id="loginEmail" type="email" placeholder="Email" />
+    <input id="loginPassword" type="password" placeholder="Password" />
+    <button onclick="handleLogin()">Login</button>
+    <p>Don't have an account? <a href="#" onclick="showSignup()" class="sr">Sign Up</a></p>
+  </div>
+</section>
+
+  <!-- Main App -->
+  <div id="mainApp" class="hidden">
+    <h2>Chanoroids Automobiles</h2>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('car', event)">Car Services</button>
+      <button class="tab-btn" onclick="showTab('wheel', event)">Wheel Services</button>
+      <button class="tab-btn" onclick="showTab('dashboard', event)">Client Dashboard</button>
+    </div>
+
+    <!-- Car Services Form -->
+    <div id="car" class="form-section active">
+      <input id="carClient" type="text" placeholder="Client Name" />
+      <input id="carDate" type="date" />
+      <input id="carTime" type="time" />
+      <input id="carDep" type="date" />
+      <input id="carVehicle" type="text" placeholder="Vehicle Name" />
+      <input id="carModel" type="text" placeholder="Vehicle Model" />
+      <input id="carReg" type="text" placeholder="Vehicle Reg. No" />
+      <input id="carChassis" type="text" placeholder="Chassis No" />
+      <input id="carColor" type="text" placeholder="Color" />
+      <input id="carAmount" type="number" placeholder="Amount" />
+      <input id="carAdvance" type="number" placeholder="Advance" />
+      <textarea id="carDesc" placeholder="Job Description"></textarea>
+      <button onclick="submitCarService()">Submit Car Service</button>
+    </div>
+
+    <!-- Wheel Services Form -->
+    <div id="wheel" class="form-section">
+      <input id="wheelClient" type="text" placeholder="Client Name" />
+      <input id="wheelDate" type="date" />
+      <input id="wheelTime" type="time" />
+      <input id="wheelDep" type="date" />
+      <input id="wheelSize" type="text" placeholder="Wheel Size" />
+      <input id="wheelAmount" type="number" placeholder="Amount" />
+      <input id="wheelAdvance" type="number" placeholder="Advance" />
+      <input id="wheelSets" type="number" placeholder="Number of Sets" />
+      <button onclick="submitWheelService()">Submit Wheel Service</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="form-section">
+      <h3>All Client Records</h3>
+      <div id="recordList"></div>
+    </div>
+  </div>
+
+  <!-- Modal for View/Edit -->
+<div id="clientModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:#fff; padding:1em; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.3); z-index:1000;">
+  <h3 id="modalTitle">Client Info</h3>
+  <input type="text" id="modalClientName" placeholder="Client Name" style="width:100%; margin-bottom:0.5em;"/>
+  <button onclick="saveClientEdit()">Save</button>
+  <button onclick="closeModal()" style="background:red;color:white;">Close</button>
+</div>
+
+</body>
+</html>
