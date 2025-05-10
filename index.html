@@ -4,84 +4,166 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chanoroids Automobiles</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+ <!-- React & ReactDOM -->
+ <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+ <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+ <!-- Babel for JSX -->
+ <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body style="font-family: calibri;">
+<body>
+  <div id="root"></div>
+  <div class="intro-screen" id="introScreen">
+    <h1>Welcome to <span>Chanoroids</span> Automobiles</h1>
+    <button onclick="startApp()">Get Started</button>
+  </div>
+  <div class="auth-container hidden" id="authContainer">
+    <div id="authForms">
+      <div class="auth-form" id="signupForm">
+        <h2>Sign Up</h2>
+        <input type="email" id="signupEmail" placeholder="Email" />
+        <div class="password-wrapper">
+          <input type="password" id="signupPassword" placeholder="Password" />
+          <i class='bx bx-hide toggle-password' onclick="togglePassword('signupPassword', this)"></i>
+        </div>
+        <button onclick="signup()">Sign Up</button>
+        <p>Already have an account? <a href="#" onclick="toggleAuth()">Login</a></p>
+      </div>
+
+      <div class="auth-form hidden" id="loginForm">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" />
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="Password" />
+          <i class='bx bx-hide toggle-password' onclick="togglePassword('loginPassword', this)"></i>
+        </div>
+        <button onclick="login()">Login</button>
+        <p>Don’t have an account? <a href="#" onclick="toggleAuth()">Sign Up</a></p>
+      </div>
+    </div>
+  </div>
+  <div id="mainNav" style="display: none;">
+    <nav>
+      <button onclick="showTab('car')">Car Services</button>
+      <button onclick="showTab('wheel')">Wheel Services</button>
+      <button onclick="showTab('dashboard')">Client Dashboard</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </div>
   
-<section class="logins">
-  <!-- Sign Up -->
-  <div id="signupPage" class="signup">
-      <h2>Sign Up</h2>
-     <input id="signupEmail" type="email" placeholder="Email" />
-     <input id="signupPassword" type="password" placeholder="Password" />
-     <button onclick="handleSignup()">Sign Up</button>
-     <p>Already have an account? <a href="#" onclick="showLogin()" class="sr">Login</a></p>
-  </div>
+    
+    <!-- Place this WITH your other tabs -->
+    <div class="form-container" id="dashboard" style="display: none;">
 
-  <!-- Login -->
-  <div id="loginPage" class="login hidden">
-    <h2>Login</h2>
-    <input id="loginEmail" type="email" placeholder="Email" />
-    <input id="loginPassword" type="password" placeholder="Password" />
-    <button onclick="handleLogin()">Login</button>
-    <p>Don't have an account? <a href="#" onclick="showSignup()" class="sr">Sign Up</a></p>
-  </div>
-</section>
+      <h3>Saved Entries</h3>
 
-  <!-- Main App -->
-  <div id="mainApp" class="hidden">
-    <h2>Chanoroids Automobiles</h2>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('car', event)">Car Services</button>
-      <button class="tab-btn" onclick="showTab('wheel', event)">Wheel Services</button>
-      <button class="tab-btn" onclick="showTab('dashboard', event)">Client Dashboard</button>
-    </div>
-
-    <!-- Car Services Form -->
-    <div id="car" class="form-section active">
-      <input id="carClient" type="text" placeholder="Client Name" />
-      <input id="carDate" type="date" />
-      <input id="carTime" type="time" />
-      <input id="carDep" type="date" />
-      <input id="carVehicle" type="text" placeholder="Vehicle Name" />
-      <input id="carModel" type="text" placeholder="Vehicle Model" />
-      <input id="carReg" type="text" placeholder="Vehicle Reg. No" />
-      <input id="carChassis" type="text" placeholder="Chassis No" />
-      <input id="carColor" type="text" placeholder="Color" />
-      <input id="carAmount" type="number" placeholder="Amount" />
-      <input id="carAdvance" type="number" placeholder="Advance" />
-      <textarea id="carDesc" placeholder="Job Description"></textarea>
-      <button onclick="submitCarService()">Submit Car Service</button>
-    </div>
-
-    <!-- Wheel Services Form -->
-    <div id="wheel" class="form-section">
-      <input id="wheelClient" type="text" placeholder="Client Name" />
-      <input id="wheelDate" type="date" />
-      <input id="wheelTime" type="time" />
-      <input id="wheelDep" type="date" />
-      <input id="wheelSize" type="text" placeholder="Wheel Size" />
-      <input id="wheelAmount" type="number" placeholder="Amount" />
-      <input id="wheelAdvance" type="number" placeholder="Advance" />
-      <input id="wheelSets" type="number" placeholder="Number of Sets" />
-      <button onclick="submitWheelService()">Submit Wheel Service</button>
-    </div>
-
-    <!-- Dashboard -->
-    <div id="dashboard" class="form-section">
-      <h3>All Client Records</h3>
-      <div id="recordList"></div>
-    </div>
-  </div>
-
-  <!-- Modal for View/Edit -->
-<div id="clientModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:#fff; padding:1em; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.3); z-index:1000;">
-  <h3 id="modalTitle">Client Info</h3>
-  <input type="text" id="modalClientName" placeholder="Client Name" style="width:100%; margin-bottom:0.5em;"/>
-  <button onclick="saveClientEdit()">Save</button>
-  <button onclick="closeModal()" style="background:red;color:white;">Close</button>
+<!-- Filter Dropdown -->
+<div class="filter-container">
+  <label for="yearFilter">Filter by Year:</label>&nbsp;&nbsp;
+  <select id="yearFilter" onchange="filterByYear()">
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+  </select>
 </div>
 
+
+<div class="filter-container">
+  <label for="monthFilter">Sort by Month:</label>&nbsp;&nbsp;
+  <select id="monthFilter" onchange="filterByMonth()">
+    <option value="">All</option>
+    <option value="01">January</option>
+    <option value="02">February</option>
+    <option value="03">March</option>
+    <option value="04">April</option>
+    <option value="05">May</option>
+    <option value="06">June</option>
+    <option value="07">July</option>
+    <option value="08">August</option>
+    <option value="09">September</option>
+    <option value="10">October</option>
+    <option value="11">November</option>
+    <option value="12">December</option>
+  </select>
+</div>
+<!-- Entry List -->
+<div id="savedEntries">
+  <!-- Entries will be shown here -->
+</div>
+      </div>
+    </div>    
+    
+
+    <div class="form-container" id="car" style="display: none;">
+      <h2>Car Services</h2>
+      <!-- Car Services Form -->
+<form id="carForm">
+  <input id="carClientName" placeholder="Client Name" required />
+  <input id="carMobileNumber" placeholder="Mobile Number" required />
+  <input type="date" id="carEntryDate" required />
+  <input type="time" id="carEntryTime" required />
+  <input type="date" id="carDepartureDate" required />
+  <input id="carVehicleName" placeholder="Vehicle Name" required />
+  <input id="carVehicleModel" placeholder="Vehicle Model" required />
+  <input id="carRegNumber" placeholder="Reg Number" required />
+  <input id="carChassisNumber" placeholder="Chassis Number" required />
+  <input id="carColor" placeholder="Color" required />
+  <input id="carAmount" placeholder="Amount" required />
+  <input id="carAdvance" placeholder="Advance" required />
+  <select id="carStatus">
+    <option value="Pending">Pending</option>
+    <option value="In Progress">In Progress</option>
+    <option value="Completed">Completed</option>
+  </select>
+  <button type="submit">Save</button>
+</form>
+<div id="carPreview" class="preview-box"></div>      
+  </div>
+  <!-- View Entry Modal -->
+<div id="viewModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeViewModal()">&times;</span>
+    <div id="viewDetails">
+      <!-- Details will be populated here -->
+    </div>
+  </div>
+</div>
+<input type="hidden" id="editIndex" value=""/>
+
+    <div class="form-container" id="wheel" style="display: none;">
+      <h2>Wheel Services</h2>
+      <form id="wheelForm">
+        <input id="wheelClientName" placeholder="Client Name" required />
+        <input id="wheelMobileNumber" placeholder="Mobile Number" required />
+        <input type="date" id="wheelEntryDate" required />
+        <input type="time" id="wheelEntryTime" required />
+        <input type="date" id="wheelDepartureDate" required />
+        <input id="wheelSize" placeholder="Wheel Size" required />
+        <input id="wheelSets" placeholder="Number of Sets" required />
+        <input id="wheelAmount" placeholder="Amount" required />
+        <input id="wheelAdvance" placeholder="Advance" required />
+        <select id="wheelStatus">
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button type="submit">Save</button>
+      </form>
+      <div id="wheelPreview" class="preview-box"></div>      
+  </div>
+  <!-- View Entry Modal -->
+<div id="viewModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeViewModal()">&times;</span>
+    <div id="viewDetails">
+      <!-- Details will be populated here -->
+    </div>
+  </div>
+</div>
+<input type="hidden" id="editIndex" value=""/>
 </body>
 </html>
